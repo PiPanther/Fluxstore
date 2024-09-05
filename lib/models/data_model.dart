@@ -21,8 +21,10 @@ class Product {
   final Meta? meta;
   final List<String>? images;
   final String? thumbnail;
+  final int? quantity;
 
   Product({
+    this.quantity = 1,
     required this.id,
     this.title,
     this.description,

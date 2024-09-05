@@ -32,15 +32,36 @@ class CartScreen extends ConsumerWidget {
                         itemBuilder: (context, index) {
                           final product = cart[index];
                           return ListTile(
+                            leading: Image.network(
+                              product.thumbnail.toString(),
+                              height: 50,
+                              width: 50,
+                              fit: BoxFit.cover,
+                            ),
                             title:
                                 Text(product.title!, style: kProductTitleStyle),
-                            subtitle:
-                                Text("\$${product.price?.toStringAsFixed(2)}"),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.remove_shopping_cart),
-                              onPressed: () {
-                                cartNotifier.removeProduct(product);
-                              },
+                            subtitle: Text(
+                              "\$${product.price?.toStringAsFixed(2)} x ${product.quantity}", // Show quantity
+                              style: kProductDescriptionStyle,
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.remove),
+                                  onPressed: () {
+                                    cartNotifier.removeProduct(product);
+                                  },
+                                ),
+                                Text(product.quantity.toString(),
+                                    style: kBoldStockTextStyle),
+                                IconButton(
+                                  icon: const Icon(Icons.add),
+                                  onPressed: () {
+                                    cartNotifier.addProduct(product);
+                                  },
+                                ),
+                              ],
                             ),
                           );
                         },
@@ -56,8 +77,9 @@ class CartScreen extends ConsumerWidget {
                           children: [
                             const Text("Total:", style: kTotalLabelStyle),
                             Text(
-                                "\$${cartNotifier.getTotalAmount().toStringAsFixed(2)}",
-                                style: kTotalAmountStyle),
+                              "\$${cartNotifier.getTotalAmount().toStringAsFixed(2)}",
+                              style: kTotalAmountStyle,
+                            ),
                           ],
                         ),
                       ),
